@@ -1,0 +1,57 @@
+﻿@model SimpleMoney.Models.BusinessDetails
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>New Application</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Application</legend>           
+        
+        @Html.HiddenFor(model => model.ApplicationID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ACN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ACN)
+            @Html.ValidationMessageFor(model => model.ACN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ABN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ABN)
+            @Html.ValidationMessageFor(model => model.ABN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LegalName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LegalName)
+            @Html.ValidationMessageFor(model => model.LegalName)
+        </div>       
+
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+
+
+
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

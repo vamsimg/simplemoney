@@ -1,0 +1,64 @@
+﻿@model SimpleMoney.Models.LoanRequirements
+@{
+    ViewBag.Title = "Loan Requirements";
+}
+
+<h2>Loan Requirements</h2>
+
+
+@using (Html.BeginForm()) {
+     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Requirements</legend>           
+
+        @Html.HiddenFor(model => model.ApplicationID)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoanAmount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoanAmount)
+            @Html.ValidationMessageFor(model => model.LoanAmount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoanPurpose)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoanPurpose)
+            @Html.ValidationMessageFor(model => model.LoanDurationMonths)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RepaymentTerms)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RepaymentTerms)
+            @Html.ValidationMessageFor(model => model.RepaymentTerms)
+        </div>   
+        
+               
+        <p>
+            <input type="submit" value="Back" name="backButton" />
+        
+            <input type="submit" value="Next" name ="nextButton"/>
+        </p>
+
+
+
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    document.getElementById("backButton").disableValidation = true;
+</script>

@@ -1,0 +1,50 @@
+﻿@model SimpleMoney.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Product</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Lender.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Lender.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MinimumAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MinimumAmount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaximumAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaximumAmount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.InterestRate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InterestRate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Terms)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Terms)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

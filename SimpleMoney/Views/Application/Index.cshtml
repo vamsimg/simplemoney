@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SimpleMoney.Models.Application>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Applications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "BusinessDetails")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Owner.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ABN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LegalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Owner.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ACN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ABN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LegalName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "BusinessDetails", new { id=item.ApplicationID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ApplicationID }) |            
+        </td>
+    </tr>
+}
+
+</table>
