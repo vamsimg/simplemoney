@@ -31,6 +31,14 @@
             @Html.ValidationMessageFor(model => model.LoanDurationMonths)
         </div>
 
+         <div class="editor-label">
+            @Html.LabelFor(model => model.LoanDurationMonths)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoanDurationMonths)
+            @Html.ValidationMessageFor(model => model.LoanDurationMonths)
+        </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.RepaymentTerms)
         </div>
@@ -38,16 +46,10 @@
             @Html.EditorFor(model => model.RepaymentTerms)
             @Html.ValidationMessageFor(model => model.RepaymentTerms)
         </div>   
-        
-               
         <p>
-            <input type="submit" value="Back" name="backButton" />
-        
+            <input type="submit" value="Back" name="backButton" />        
             <input type="submit" value="Next" name ="nextButton"/>
         </p>
-
-
-
     </fieldset>
 }
 

@@ -8,15 +8,20 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		discountasp|Any CPU = discountasp|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.discountasp|Any CPU.ActiveCfg = discountasp|Any CPU
+		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.discountasp|Any CPU.Build.0 = discountasp|Any CPU
 		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081C0672-4BD2-47FA-9F6A-E4B2B44B36C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.discountasp|Any CPU.ActiveCfg = discountasp|Any CPU
+		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.discountasp|Any CPU.Build.0 = discountasp|Any CPU
 		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0C2376D-822C-4CAD-BD28-A2E3F2996D8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

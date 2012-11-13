@@ -11,10 +11,11 @@ namespace SimpleMoney.Models
      [Table("Lenders")]
      public class Lender
      {
-          [Key]          
+          [Key]
           public int LenderID { get; set; }
           public string Name { get; set; }
           public string ACN { get; set; }
+          public string Email { get; set; }
 
           public virtual List<Product> Products { get; set; }
      }
@@ -29,32 +30,11 @@ namespace SimpleMoney.Models
           public int LenderID { get; set; }          
 
           [ForeignKey("UserID")]
-          public UserProfile Employee { get; set; }
+          public virtual UserProfile Employee { get; set; }
 
           [ForeignKey("LenderID")]
-          public Lender Employer { get; set; }
+          public virtual Lender Employer { get; set; }
 
           public string Position { get; set; }
      }
-
-     [Table("Products")]
-     public class Product
-     {
-          [Key]
-          public int ProductID { get; set; }
-
-          public int LenderID { get; set; }
-
-          [ForeignKey("LenderID")]
-          public Lender Lender { get; set; }
-
-          public string Title { get; set; }
-
-          public int MinimumAmount { get; set; }
-          public int MaximumAmount { get; set; }
-
-          public double InterestRate { get; set; }
-          public string Terms { get; set; }
-     }
-
 }

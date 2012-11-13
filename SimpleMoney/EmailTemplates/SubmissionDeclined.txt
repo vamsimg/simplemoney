@@ -1,0 +1,12 @@
+﻿Hello $fullName
+
+Your application to $lender  has been declined for the following product $product.
+
+They left this message to explain why:
+
+$declinedMessage
+
+
+Regards
+
+The team at SimpleMoney

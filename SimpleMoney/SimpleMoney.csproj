@@ -163,28 +163,26 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ApplicationSubmissionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LenderController.cs" />
     <Compile Include="Controllers\LenderEmployeeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="App_Code\EmailHelper.cs" />
+    <Content Include="EmailTemplates\SubmissionDeclined.txt" />
+    <Content Include="EmailTemplates\SubmitApplicationEmail.txt" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201211061024018_Init.cs" />
-    <Compile Include="Migrations\201211061024018_Init.Designer.cs">
-      <DependentUpon>201211061024018_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201211081411520_Init1.cs" />
-    <Compile Include="Migrations\201211081411520_Init1.Designer.cs">
-      <DependentUpon>201211081411520_Init1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\ApplicationViewModels.cs" />
     <Compile Include="Models\EntitiesContext.cs" />
     <Compile Include="Models\EntitiesInitializer.cs" />
     <Compile Include="Models\Lender.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -242,8 +240,12 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="EmailTemplates\AccountCreationEmail.txt" />
+    <Content Include="EmailTemplates\SubmissionApproved.txt" />
+    <Content Include="EmailTemplates\AdminAccountCreationEmail.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\discountasp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -283,14 +285,9 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Application\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -302,11 +299,6 @@
     <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\Application\Details.cshtml" />
     <Content Include="Views\Application\BusinessDetails.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Product\Details.cshtml" />
-    <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Lender\Index.cshtml" />
     <Content Include="Views\Lender\Details.cshtml" />
     <Content Include="Views\Lender\Create.cshtml" />
@@ -321,6 +313,22 @@
     <Content Include="Views\Application\BusinessFinancials.cshtml" />
     <Content Include="Views\Application\LoanRequirements.cshtml" />
     <Content Include="_AppStart.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Product\Delete.cshtml" />
+    <Content Include="Views\Application\ProductSearch.cshtml" />
+    <Content Include="Views\Application\SubmitApplication.cshtml" />
+    <Content Include="Views\Application\ApplicationFinish.cshtml" />
+    <Content Include="Views\ApplicationSubmission\Index.cshtml" />
+    <Content Include="Views\ApplicationSubmission\Details.cshtml" />
+    <Content Include="Views\ApplicationSubmission\Create.cshtml" />
+    <Content Include="Views\ApplicationSubmission\Edit.cshtml" />
+    <Content Include="Views\ApplicationSubmission\Delete.cshtml" />
+    <None Include="Web.discountasp.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -328,17 +336,22 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201211061024018_Init.resx">
-      <DependentUpon>201211061024018_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201211081411520_Init1.resx">
-      <DependentUpon>201211081411520_Init1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'discountasp|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabaseSettings>
+      <Objects>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

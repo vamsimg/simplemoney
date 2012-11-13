@@ -6,9 +6,12 @@
 
 <h2>My Applications</h2>
 
-<p>
-    @Html.ActionLink("Create New", "BusinessDetails")
-</p>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+   <p>
+        <input type="submit" value="New App" name="newApplicationButton" />
+    </p>
+}
 <table>
     <tr>
         <th>

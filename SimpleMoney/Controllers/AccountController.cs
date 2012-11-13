@@ -37,7 +37,15 @@ namespace SimpleMoney.Controllers
           {
                if (ModelState.IsValid && WebSecurity.Login(model.Email, model.Password, persistCookie: model.RememberMe))
                {
-                    return RedirectToAction("Index", "Application");
+                    if (Roles.GetRolesForUser(model.Email).Contains("lender"))
+                    {
+                         return RedirectToAction("Index", "ApplicationSubmission");
+                    }
+                    else 
+                    {
+                         return RedirectToAction("Index", "Application");
+                    }
+                    
                }
 
                // If we got this far, something failed, redisplay form

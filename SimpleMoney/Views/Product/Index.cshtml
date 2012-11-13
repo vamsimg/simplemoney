@@ -27,6 +27,9 @@
             @Html.DisplayNameFor(model => model.InterestRate)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.IsVariableRate)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Terms)
         </th>
         <th></th>
@@ -48,6 +51,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InterestRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsVariableRate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Terms)

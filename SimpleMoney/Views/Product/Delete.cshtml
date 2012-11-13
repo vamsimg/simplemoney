@@ -18,6 +18,13 @@
     </div>
 
     <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
          @Html.DisplayNameFor(model => model.MinimumAmount)
     </div>
     <div class="display-field">
@@ -36,6 +43,13 @@
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.InterestRate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsVariableRate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsVariableRate)
     </div>
 
     <div class="display-label">

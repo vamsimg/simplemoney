@@ -21,6 +21,14 @@ namespace SimpleMoney.Models
           public string FirstName { get; set; }
           public string LastName { get; set; }
           public DateTime CreateDate { get; set; }
+
+          public string FullName
+          {
+              get
+              {
+                   return FirstName + " " + LastName;
+              }
+          }
      }
      
 

@@ -1,0 +1,226 @@
+﻿@model SimpleMoney.Models.ApplicationSubmission
+
+
+@{
+    ViewBag.Title = "ApplicationSubmission";
+}
+
+<h2>Application Submission Details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)   
+
+    if(Model.Status == SimpleMoney.Models.SubmissionStatus.Submitted)
+    {
+        <input type="submit" value="Accept" name="acceptButton" />        
+        <input type="submit" value="Decline" name ="declineButton"/>    
+    }
+    
+}
+
+<div class="display-label">
+    Status
+</div>
+
+<div class="display-field">
+   @Model.Status.ToString()
+</div>
+
+
+<fieldset>
+    <legend>Product Details</legend>
+
+  
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.Title)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.MinimumAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.MinimumAmount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.MaximumAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.MaximumAmount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.InterestRate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.InterestRate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.IsVariableRate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.IsVariableRate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Product.Terms)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Product.Terms)
+    </div>
+    
+</fieldset>
+
+<fieldset>
+    <legend>Application</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.Owner.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.Owner.Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.Owner.MobileNumber)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.Owner.MobileNumber)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.ACN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.ACN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.ABN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.ABN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.LegalName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.LegalName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.CreateDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.CreateDate)
+    </div>
+
+    <h3>Financials</h3>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.YearlyIncomeBeforeTax)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.YearlyIncomeBeforeTax)        
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.YearlyDepreciation)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.YearlyDepreciation)
+        
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.YearlyInterestEarned)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.YearlyInterestEarned)        
+    </div>          
+               
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.YearlyNetProfit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.YearlyNetProfit)        
+    </div> 
+
+    <h3>Assets</h3>
+
+    <table>
+            <tr>
+                <th>Amount</th><th>Type</th><th>Details</th>       
+            </tr>
+    
+            @foreach (var item in Model.Application.Assets)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details)
+                    </td>               
+                </tr>
+            }
+    </table>
+
+
+    <h3>Liabilities</h3>
+
+    <table>
+        <tr>
+            <th>Amount</th><th>Type</th><th>Details</th>       
+        </tr>
+    
+        @foreach (var item in Model.Application.Liabilities)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Details)
+                </td>               
+            </tr>
+        }
+    </table>
+
+    <h3> Loan Requirements </h3>
+        
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.LoanAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.LoanAmount)        
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.LoanPurpose)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.LoanPurpose)        
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Application.RepaymentTerms)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.RepaymentTerms)        
+    </div>   
+
+</fieldset>

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SimpleMoney.Models;
+using SimpleMoney.App_Code;
 using WebMatrix.WebData;
 
 namespace SimpleMoney.Controllers
 {
-     
+     [Authorize] 
     public class ApplicationController : Controller
     {
         private EntitiesContext db = new EntitiesContext();
@@ -20,30 +21,47 @@ namespace SimpleMoney.Controllers
 
         public ActionResult Index()
         {
-            var applications = db.Applications.Include(a => a.Owner);
+            var applications = db.Applications.Where(a=>a.UserID == WebSecurity.CurrentUserId).Include(a => a.Owner);
             return View(applications.ToList());
         }
 
-        //
-        // GET: /Application/Details/5
 
-        public ActionResult Details(int id = 0)
+        //
+        // POST: /Application/
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(string newApplicationButton)
         {
-            Application application = db.Applications.Find(id);
-            if (application == null)
-            {
-                return HttpNotFound();
-            }
-            return View(application);
+             var newApplication = new Application();
+
+             newApplication.CreateDate = DateTime.Now;
+             newApplication.UserID = WebSecurity.CurrentUserId;
+                        
+             newApplication.Status = ApplicationStatus.Incomplete;
+
+             db.Applications.Add(newApplication);
+
+             db.SaveChanges();
+
+             UserApplication newEntry = new UserApplication();
+             newEntry.AccessType = "owner";
+             newEntry.ApplicationID = newApplication.ApplicationID;
+             newEntry.UserID = WebSecurity.CurrentUserId;
+
+             db.UserApplications.Add(newEntry);
+             db.SaveChanges();
+
+             return RedirectToAction("BusinessDetails", new { ID = newApplication.ApplicationID });
+
         }
 
-
+       
           //
           // GET: /Application/BusinessDetails/5
 
           public ActionResult BusinessDetails(int id = 0)
           {
-
                if (id != 0)
                {
                     Application application = db.Applications.Find(id);
@@ -68,7 +86,7 @@ namespace SimpleMoney.Controllers
                     }
                }
 
-               return View();
+               return RedirectToAction("Index");
           }
 
           //
@@ -79,51 +97,17 @@ namespace SimpleMoney.Controllers
           public ActionResult BusinessDetails(BusinessDetails details)
           {
                if (ModelState.IsValid)
-               {
-                    if (details.ApplicationID == 0)
-                    {
-                         var newApplication = new Application();
+               {                                         
+                    Application existingApplication = db.Applications.Find(details.ApplicationID);
 
-                         newApplication.CreateDate = DateTime.Now;
-                         newApplication.UserID = WebSecurity.CurrentUserId;
-                         
-                         newApplication.ABN = details.ABN;
-                         newApplication.ACN = details.ACN;
-                         newApplication.LegalName = details.LegalName;
-                         newApplication.Status = ApplicationStatus.Started;
+                    existingApplication.ABN = details.ABN;
+                    existingApplication.ACN = details.ACN;
+                    existingApplication.LegalName = details.LegalName;
 
-                         db.Applications.Add(newApplication);
+                    db.SaveChanges();
 
-                         db.SaveChanges();                   
-
-                         UserApplication newEntry = new UserApplication();
-                         newEntry.AccessType = "owner";
-                         newEntry.ApplicationID = newApplication.ApplicationID;
-                         newEntry.UserID = WebSecurity.CurrentUserId;
-
-                         db.UserApplications.Add(newEntry);
-                         db.SaveChanges();
-
-                         details.ApplicationID = newApplication.ApplicationID;
-
-                    }
-                    else
-                    {
-                         Application existingApplication = db.Applications.Find(details.ApplicationID);
-
-                         existingApplication.ABN = details.ABN;
-                         existingApplication.ACN = details.ACN;
-                         existingApplication.LegalName = details.LegalName;
-
-                         db.SaveChanges();                   
-                    }
-
-                    
-
-
-                    return RedirectToAction("BusinessFinancials", new { ID = details.ApplicationID });
-               }   
-            
+                    return RedirectToAction("BusinessFinancials", new { ID = details.ApplicationID });                  
+               }               
                return View(details);
           }
 
@@ -248,6 +232,7 @@ namespace SimpleMoney.Controllers
                             requirements.LoanAmount = application.LoanAmount;
                             requirements.LoanDurationMonths = application.LoanDurationMonths;
                             requirements.LoanPurpose = application.LoanPurpose;
+                            requirements.RepaymentTerms = application.RepaymentTerms;
                             return View(requirements);
                        }
                   }
@@ -301,7 +286,13 @@ namespace SimpleMoney.Controllers
                   {
                        if (application.Owner.Email == User.Identity.Name)
                        {
-                           
+                            var productsAvailable = db.Products.Where(p => p.MaximumAmount > application.LoanAmount);
+
+                            var products = new ProductsInApplication();
+                            products.ApplicationID = application.ApplicationID;
+                            products.products = productsAvailable.ToList();
+                            
+                            return View(products);
                        }
                   }
              }
@@ -309,37 +300,104 @@ namespace SimpleMoney.Controllers
              return RedirectToAction("BusinessDetails");
         }
 
-        ////
-        //// POST: /Application/LoanRequirements
+        //
+        // POST: /Application/ProductSearch
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ProductSearch(string backButton, string nextButton)
-        //{
-        //     if (backButton != null)
-        //     {
-        //          return RedirectToAction("BusinessFinancials", new { ID = requirements.ApplicationID });
-        //     }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProductSearch(ProductsInApplication products, string backButton, string nextButton, string[] selectedProducts)
+        {
+             if (backButton != null)
+             {
+                  return RedirectToAction("LoanRequirements", new { ID = products.ApplicationID });
+             }
 
 
-        //     if (nextButton != null && ModelState.IsValid)
-        //     {
-        //          Application existingApplication = db.Applications.Find(requirements.ApplicationID);
+             if (nextButton != null && ModelState.IsValid)
+             {
+                  Application existingApplication = db.Applications.Find(products.ApplicationID);
 
-                  
+                  foreach (string productID in selectedProducts)
+                  {
+                       int ID = Convert.ToInt32(productID);
 
-        //          db.SaveChanges();
+                       var newSubmission = new ApplicationSubmission();
+                       newSubmission.ApplicationID = existingApplication.ApplicationID;
+                       newSubmission.CreateDate = DateTime.Now;
+                       newSubmission.LastModifiedDate = DateTime.Now;
+                       newSubmission.ProductID = ID;
+                       newSubmission.Status = SubmissionStatus.Saved;
 
-        //          //TODO Includes some code for sanity checking.
+                       db.ApplicationSubmissions.Add(newSubmission);
+                  }
 
-        //          return RedirectToAction("ProductConfirmation", new { ID = requirements.ApplicationID });
-        //     }
-        //     return View(requirements);
-        //}
 
-       
+                  db.SaveChanges();
 
-       
+                  //TODO Includes some code for sanity checking.
+
+                  return RedirectToAction("SubmitApplication", new { ID = products.ApplicationID });
+             }
+             return View(products);
+        }
+
+
+        //
+        // GET: /Application/SubmitApplication/5
+
+        public ActionResult SubmitApplication(int id = 0)
+        {
+             if (id != 0)
+             {
+                  Application application = db.Applications.Find(id);
+                  if (application != null)
+                  {
+                       if (application.Owner.Email == User.Identity.Name)
+                       {
+                            var products = new ProductsInApplication();
+                            products.ApplicationID = application.ApplicationID;
+                            products.products = application.ApplicationSubmissions.Select(p => p.Product).ToList();
+
+                            return View(products);                            
+                       }
+                  }
+             }
+
+             return RedirectToAction("BusinessDetails");
+        }
+
+        //
+        // POST: /Application/SubmitApplication
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitApplication(ProductsInApplication products, string backButton, string nextButton)
+        {
+             if (backButton != null)
+             {
+                  return RedirectToAction("ProductSearch", new { ID = products.ApplicationID });
+             }
+
+
+             if (nextButton != null && ModelState.IsValid)
+             {
+                  Application existingApplication = db.Applications.Find(products.ApplicationID);
+
+                  foreach (var submission in existingApplication.ApplicationSubmissions)
+                  {
+                       submission.Status = SubmissionStatus.Submitted;
+                  }
+                  db.SaveChanges();
+
+                  foreach (var submission in existingApplication.ApplicationSubmissions)
+                  {
+                       EmailHelper.SendLoanSubmittedEmail(submission);
+                  }
+
+                  return RedirectToAction("ApplicationFinish");
+             }
+             return View(products);
+        }             
 
         ////
         //// GET: /Application/Delete/5

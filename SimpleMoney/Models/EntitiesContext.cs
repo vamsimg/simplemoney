@@ -13,6 +13,11 @@ namespace SimpleMoney.Models
           {
           }
 
+          protected override void OnModelCreating(DbModelBuilder modelBuilder)
+          {
+              Database.SetInitializer<EntitiesContext>(new CreateDatabaseIfNotExists<EntitiesContext>());
+          }
+
           public DbSet<UserProfile> UserProfiles { get; set; }
           public DbSet<Lender> Lenders { get; set; }
           public DbSet<LenderEmployee> LenderEmployees { get; set; }
@@ -28,5 +33,5 @@ namespace SimpleMoney.Models
           public DbSet<Liability> Liabilities { get; set; }
      }
 
-
+     
 }

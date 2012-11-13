@@ -1,0 +1,5 @@
+﻿$FullName has submitted a loan application to your bank.
+
+Please login and view the application below to evaluate their application
+
+$ApplicationLink

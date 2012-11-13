@@ -23,6 +23,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.MinimumAmount)
         </div>
         <div class="editor-field">
@@ -44,6 +52,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.InterestRate)
             @Html.ValidationMessageFor(model => model.InterestRate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsVariableRate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsVariableRate)
+            @Html.ValidationMessageFor(model => model.IsVariableRate)
         </div>
 
         <div class="editor-label">

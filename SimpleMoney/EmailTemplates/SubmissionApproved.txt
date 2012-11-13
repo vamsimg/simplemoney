@@ -1,0 +1,9 @@
+﻿Hello $fullName
+
+Your application to $lender  has been approved for the following product $product.
+
+They will be in touch shortly to discuss the next steps in taking your application forwards.				  
+
+Regards
+
+The team at SimpleMoney
