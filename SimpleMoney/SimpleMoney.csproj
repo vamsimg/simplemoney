@@ -40,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="StyleCop">
+      <HintPath>..\packages\StyleCop.4.7.44.0\lib\net35\StyleCop.dll</HintPath>
+    </Reference>
+    <Reference Include="StyleCop.CSharp">
+      <HintPath>..\packages\StyleCop.4.7.44.0\lib\net35\StyleCop.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -154,6 +160,9 @@
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="XeroApi">
+      <HintPath>..\packages\XeroAPI.Net.1.1.0.27\lib\XeroApi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
@@ -163,17 +172,21 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\ApplicationSubmissionController.cs" />
+    <Compile Include="Controllers\FinancialsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LenderController.cs" />
-    <Compile Include="Controllers\LenderEmployeeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="App_Code\EmailHelper.cs" />
+    <Content Include="Content\Tables.css" />
     <Content Include="EmailTemplates\SubmissionDeclined.txt" />
     <Content Include="EmailTemplates\SubmitApplicationEmail.txt" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201302260809329_test.cs" />
+    <Compile Include="Migrations\201302260809329_test.Designer.cs">
+      <DependentUpon>201302260809329_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -181,6 +194,7 @@
     <Compile Include="Models\ApplicationViewModels.cs" />
     <Compile Include="Models\EntitiesContext.cs" />
     <Compile Include="Models\EntitiesInitializer.cs" />
+    <Compile Include="Models\Financials.cs" />
     <Compile Include="Models\Lender.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -261,6 +275,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\transpose_table.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -313,19 +328,16 @@
     <Content Include="Views\Application\BusinessFinancials.cshtml" />
     <Content Include="Views\Application\LoanRequirements.cshtml" />
     <Content Include="_AppStart.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Product\Details.cshtml" />
-    <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Application\ProductSearch.cshtml" />
     <Content Include="Views\Application\SubmitApplication.cshtml" />
     <Content Include="Views\Application\ApplicationFinish.cshtml" />
     <Content Include="Views\ApplicationSubmission\Index.cshtml" />
     <Content Include="Views\ApplicationSubmission\Details.cshtml" />
-    <Content Include="Views\ApplicationSubmission\Create.cshtml" />
-    <Content Include="Views\ApplicationSubmission\Edit.cshtml" />
-    <Content Include="Views\ApplicationSubmission\Delete.cshtml" />
+    <Content Include="Views\Financials\BalanceSheets.cshtml" />
+    <Content Include="Views\Financials\Index.cshtml" />
+    <Content Include="Views\Financials\ProfitAndLossStatements.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
     <None Include="Web.discountasp.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -335,6 +347,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201302260809329_test.resx">
+      <DependentUpon>201302260809329_test.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

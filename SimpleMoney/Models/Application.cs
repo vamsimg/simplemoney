@@ -78,18 +78,18 @@ namespace SimpleMoney.Models
      [Table("UserApplications")]
      public class UserApplication
      {
-          [Key, Column(Order = 0)]          
+          [Key, Column(Order = 0)]
           public int UserID { get; set; }
 
-          [Key, Column(Order = 1)]          
+          [Key, Column(Order = 1)]
           public int ApplicationID { get; set; }
 
           [ForeignKey("ApplicationID")]
           public Application Application { get; set; }
-          
+
           [ForeignKey("UserID")]
           public UserProfile User { get; set; }
-                   
+
           public string AccessType { get; set; }
      }
 

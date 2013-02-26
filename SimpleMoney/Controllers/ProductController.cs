@@ -23,6 +23,57 @@ namespace SimpleMoney.Controllers
         }
 
         //
+        // POST: /Product/
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(int amount, string duration, bool principal = false , bool interest = false, bool residential = false, bool commercial = false, bool other =false , bool noSecurity =false , bool progress =false )
+        {
+             var products = db.Products.Include(p => p.Lender);
+             
+             ViewBag.amount = amount;
+             ViewBag.duration = duration;
+             ViewBag.principal = principal;
+             ViewBag.interest = interest;
+
+             ViewBag.residential = residential;
+             ViewBag.commercial = commercial;
+             ViewBag.other = other;
+             ViewBag.progress = progress;
+             ViewBag.noSecurity = noSecurity;
+
+
+             var minProducts = products.Where(p => p.MinimumAmount < amount);
+
+             
+
+             var resProducts = new List<Product>();
+               var commercialProducts = new List<Product>();
+               var noneProducts = new List<Product>();
+
+             if(residential)
+             {
+                  resProducts = minProducts.Where(p => (p.SecurityTypes & SecurityType.ResidentialProperty) == SecurityType.ResidentialProperty).ToList();
+             }
+
+             if(commercial)
+             {
+                  commercialProducts = minProducts.Where(p => (p.SecurityTypes & SecurityType.CommercialProperty) == SecurityType.CommercialProperty).ToList();
+             }
+
+             if(noSecurity)
+             {
+                  noneProducts = minProducts.Where(p => (p.SecurityTypes & SecurityType.None) == SecurityType.None).ToList();
+             }
+
+
+             var compatibleProducts = resProducts.Union(commercialProducts).Union(noneProducts);
+
+
+             return View(compatibleProducts);
+        }
+
+        //
         // GET: /Product/Details/5
 
         public ActionResult Details(int id = 0)

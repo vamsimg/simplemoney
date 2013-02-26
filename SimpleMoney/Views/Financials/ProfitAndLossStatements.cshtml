@@ -1,0 +1,31 @@
+﻿@model SimpleMoney.Models.ProfitAndLossStatement
+
+@{
+    ViewBag.Title = "ProfitAndLossStatements";
+}
+
+<h2>ProfitAndLossStatements</h2>
+
+<table>
+    <tr>
+        <th>Type</th><th>Details</th><th>Account Code</th><th>Amount</th>
+    </tr>
+    
+    @foreach (var entry in Model.ProfitAndLossStatementEntries)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => entry.ProfitAndLossType )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.AccountID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Amount)
+            </td>                        
+        </tr>
+    }
+</table>

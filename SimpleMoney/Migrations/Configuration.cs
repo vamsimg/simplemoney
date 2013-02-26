@@ -84,8 +84,12 @@ namespace SimpleMoney.Migrations
                lenders.Add("Westpac");
                lenders.Add("St George");
                lenders.Add("ANZ");
-               lenders.Add("Members Equity");
-               lenders.Add("Bendigo Bank");
+               lenders.Add("Suncorp");
+               lenders.Add("Bankwest");
+               lenders.Add("Westpac");
+               lenders.Add("Adelaide Bank");
+               
+
 
 
                foreach(var lender in lenders)
@@ -100,75 +104,344 @@ namespace SimpleMoney.Migrations
                }
 
                context.SaveChanges();
-
+               
                var currentLenders = context.Lenders.ToList();
 
-               foreach(var lender in currentLenders)
+
+               #region Commbank
+
+               var commbank = context.Lenders.First(l => l.Name == "Commonwealth Bank");
+
+
+               var commbankOverdraft = new Product
                {
-                    if (lender.Products.Count == 0) 
-                    {
-                         var newEmployee = new LenderEmployee();
+                    LenderID = commbank.LenderID,
+                    Title = "Overdraft",
+                    RateTypes = RateType.Variable,
+                    ProductCategory = ProductCategory.Overdraft,
+                    SecurityTypes  = SecurityType.None,
+               };
 
-                         newEmployee.LenderID = lender.LenderID;
-                         newEmployee.UserID = lenderUserID;
-                         newEmployee.Position = "Approver";
+               var commbankTermLoan = new Product
+               {
+                    LenderID       = commbank.LenderID,
+                    Title          = "Better Business Loan",
+                    MinimumAmount  = 50000,
+                    LoanAmountNotes = "Minimum Loan Amount with Residential Security is $100000",
+                    SecurityTypes  = SecurityType.ResidentialProperty,
 
+                    RateTypes      = RateType.Variable | RateType.Fixed ,
 
-                         var newProduct1 = new Product();
+                    ProductCategory = ProductCategory.TermLoan
+               };
 
-                         newProduct1.LenderID = lender.LenderID;
-                         newProduct1.Title = FinanceTypes.MortgageLoan.ToString();
-                         newProduct1.Terms = "Monthly Payments";
-                         newProduct1.MinimumAmount = 10000;
-                         newProduct1.MaximumAmount = 100000;
-                         newProduct1.Type = FinanceTypes.MortgageLoan;
-                         newProduct1.InterestRate = 6;
-                         newProduct1.IsVariableRate = false;
+               var commbankBill = new Product
+               {
+                    LenderID       = commbank.LenderID,
+                    Title          = "Commercial Bill",
+                    MinimumAmount  = 500000,                    
+                    RateTypes      = RateType.Fixed ,
 
-                         var newProduct2 = new Product();
+                    ProductCategory = ProductCategory.CommercialBill
+               };
 
-                         newProduct2.LenderID = lender.LenderID;
-                         newProduct2.Title = FinanceTypes.Overdraft.ToString();
-                         newProduct2.Terms = "Ongoing";
-                         newProduct2.MinimumAmount = 1000;
-                         newProduct2.MaximumAmount = 20000;
-                         newProduct2.Type = FinanceTypes.Overdraft;
-                         newProduct2.InterestRate = 15;
-                         newProduct2.IsVariableRate = true;
+               var commbankLineOfCredit = new Product
+               {
+                    LenderID = commbank.LenderID,
+                    Title = "Line of Credit",
+                    MinimumAmount = 5000,                    
+                    RateTypes = RateType.Variable | RateType.Fixed,
+                    SecurityTypes  = SecurityType.None,
+                    ProductCategory = ProductCategory.LineOfCredit
+               };
 
-                         var newProduct3 = new Product();
-
-                         newProduct3.LenderID = lender.LenderID;
-                         newProduct3.Title = FinanceTypes.LineOfCredit.ToString();
-                         newProduct3.Terms = "Ongoing";
-                         newProduct3.MinimumAmount = 1000;
-                         newProduct3.MaximumAmount = 30000;
-                         newProduct3.Type = FinanceTypes.LineOfCredit;
-                         newProduct3.InterestRate = 15;
-                         newProduct3.IsVariableRate = true;
-
-                         var newProduct4 = new Product();
-
-                         newProduct4.LenderID = lender.LenderID;
-                         newProduct4.Title = FinanceTypes.EquipmentLoan.ToString();
-                         newProduct4.Terms = "Monthly Payments";
-                         newProduct4.MinimumAmount = 10000;
-                         newProduct4.MaximumAmount = 100000;
-                         newProduct4.Type = FinanceTypes.EquipmentLoan;
-                         newProduct4.InterestRate = 10;
-                         newProduct4.IsVariableRate = true;
-
-                         context.Products.Add(newProduct1);
-                         context.Products.Add(newProduct2);
-                         context.Products.Add(newProduct3);
-                         context.Products.Add(newProduct4);
-
-                         context.LenderEmployees.Add(newEmployee);
-                    }
-
-               }
+               context.Products.Add(commbankOverdraft);
+               context.Products.Add(commbankTermLoan);
+               context.Products.Add(commbankBill);
+               context.Products.Add(commbankLineOfCredit);
 
                context.SaveChanges();
+               
+
+               #endregion
+
+               #region Bankwest
+
+               var bankwest = context.Lenders.First(l => l.Name == "Bankwest");
+
+
+               var bankwestOverdraft = new Product
+               {
+                    LenderID = bankwest.LenderID,
+                    Title = "Business Overdrafts",
+                    MinimumAmount = 20000,
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty ,
+
+                    EstablishmentFeePercentage = 0.5,
+                    EstablishmentFeeMinimum = 700,
+
+                    ProductCategory = ProductCategory.Overdraft
+               };
+
+
+               var bankwestLineOfCredit = new Product
+               {
+                    LenderID = bankwest.LenderID,
+                    Title = "Business Equity Line",
+                    Comments = @"Fully functioning line of credit
+                                  for the purpose of larger 
+                                  purchases or investments",
+
+                    
+                    MinimumAmount = 50000,
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    EstablishmentFeePercentage = 0.5,
+                    EstablishmentFeeMinimum = 700,
+                    MonthlyAccountKeepingFee = 33,
+
+                    ProductCategory = ProductCategory.LineOfCredit
+
+               };
+
+               var bankwestTermLoan1 = new Product
+               {
+                    LenderID = bankwest.LenderID,
+                    Title = "Business Low Rate Loan",
+                    MinimumAmount = 20000,
+
+                    MinimumDuration = 1,
+                    MaximumDuration = 15,
+                    MaximumDurationNotes = "Principal & Interest  15 years (Commercial security) 30 years (residential security), Interest only 5 years", 
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly ,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    
+                    ProgressDrawingsAllowed = true,
+                    EarlyRepaymentsAllowed = true,
+                    
+                    EstablishmentFeePercentage = 0.5,
+                    EstablishmentFeeMinimum = 700,
+                    MonthlyAccountKeepingFee = 20,
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var bankwestTermLoan2 = new Product
+               {
+                    LenderID = bankwest.LenderID,
+                    Title = "Business Fixed Rate Loan",
+                    MinimumAmount = 50000,
+
+                    MinimumDuration = 1,
+                    MaximumDuration = 15,
+
+                    RateTypes = RateType.Fixed,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+
+
+                    EstablishmentFeePercentage = 0.5,
+                    EstablishmentFeeMinimum = 700,
+                    MonthlyAccountKeepingFee = 20,
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var bankwestTermLoan3 = new Product
+               {
+                    LenderID = bankwest.LenderID,
+                    Title = "Business Fee Saver Loan",
+                    MinimumAmount = 20000,
+
+                    MinimumDuration = 1,
+                    MaximumDuration = 15,
+                    MaximumDurationNotes = "Principal & Interest  15 years (Commercial security) 30 years (residential security), Interest only 5 years",
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+
+                    EarlyRepaymentsAllowed = true,
+                    
+
+                    EstablishmentFeePercentage = 0,
+                    EstablishmentFeeMinimum = 0,
+                    MonthlyAccountKeepingFee = 0,
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               context.Products.Add(bankwestOverdraft);
+               context.Products.Add(bankwestLineOfCredit);
+               context.Products.Add(bankwestTermLoan1);
+               context.Products.Add(bankwestTermLoan2);
+               context.Products.Add(bankwestTermLoan3);
+               
+
+               context.SaveChanges();
+
+               #endregion
+
+
+               #region Suncorp
+
+               var suncorp = context.Lenders.First(l => l.Name == "Suncorp");
+
+
+               var suncorpOverdraft = new Product
+               {
+                    LenderID = suncorp.LenderID,
+                    Title = "Business Overdrafts",
+
+                    ProductCategory = ProductCategory.Overdraft,
+                    SecurityTypes  = SecurityType.None,
+               };
+
+
+               var suncorpLineOfCredit = new Product
+               {
+                    LenderID = suncorp.LenderID,
+                    Title = "Line of Credit",
+                  
+                    MinimumAmount = 10000,
+                    MaximumAmount = 1000000,
+
+                    RateTypes = RateType.Variable ,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+                    LVR = 80,
+                    LVRNotes = "Residential Property 80%, Commercial Property 70%",
+
+                    
+                    RepaymentTypes = RepaymentType.InterestInArrears,
+                    EarlyRepaymentsAllowed = true,
+               
+                    EstablishmentFeePercentage = 0.3,
+                    EstablishmentFeeMinimum = 800,
+                    MonthlyAccountKeepingFee = 27,
+                    TerminationFee = 250,
+
+                    ProductCategory = ProductCategory.LineOfCredit                   
+
+               };
+
+               
+               var suncorpTermLoan1 = new Product
+               {
+                    LenderID = suncorp.LenderID,
+                    Title = "Term Loan Fixed",
+                    MinimumAmount = 10000,
+                    MaximumAmount = 1000000,
+
+                    MinimumDuration = 1,
+                    MaximumDuration = 25,
+                    MaximumDurationNotes = "30 years (residential security), 15 years (commercial security)",
+
+                    RateTypes = RateType.Fixed,
+                    
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    LVR = 80,
+                    LVRNotes = "Residential Property 80%, Commercial Property 70%, Low Doc 60%",
+
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly ,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears | RepaymentType.InterestInAdvance,
+
+                    ProgressDrawingsAllowed = false,
+                    EarlyRepaymentsAllowed = true,
+
+                    EstablishmentFeePercentage = 0.3,
+                    EstablishmentFeeMinimum = 800,
+                    MonthlyAccountKeepingFee = 15,
+                    
+                    TerminationFee = 250,
+
+
+                    ProductCategory = ProductCategory.TermLoan
+
+               };
+
+               var suncorpTermLoan2 = new Product
+               {
+                    LenderID = suncorp.LenderID,
+                    Title = "Term Loan",
+                    MinimumAmount = 10000,
+                    MaximumAmount = 1000000,
+
+                    MinimumDuration = 1,
+                    MaximumDuration = 25,
+                    MaximumDurationNotes = "30 years (residential security), 15 years (commercial security)",
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    LVR = 80,
+                    LVRNotes = "Residential Property 80%, Commercial Property 70%, Low Doc 60%",
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly ,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears | RepaymentType.InterestInAdvance,
+
+                    ProgressDrawingsAllowed = true,
+                    EarlyRepaymentsAllowed = true,
+
+                    EstablishmentFeePercentage = 0.3,
+                    EstablishmentFeeMinimum = 800,
+                    MonthlyAccountKeepingFee = 15,
+
+                    TerminationFee = 250,
+                    
+
+                    Comments = "Add 0.15% to interest rate for Low Doc loan",
+
+
+                    ProductCategory = ProductCategory.TermLoan
+
+               };
+
+               var suncorpTermLoan3 = new Product
+               {
+                    LenderID = suncorp.LenderID,
+                    Title = "Business Essentials",
+                   
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    LVR = 80,
+
+                    EstablishmentFeePercentage = 0.5,
+                    EstablishmentFeeMinimum = 700,
+                    MonthlyAccountKeepingFee = 0,
+                    TerminationFee = 250,
+                    ProgressDrawingsAllowed = true,
+                    ProductCategory = ProductCategory.TermLoan
+
+               };
+           
+
+               context.Products.Add(suncorpOverdraft);
+               context.Products.Add(suncorpLineOfCredit);
+               context.Products.Add(suncorpTermLoan1);
+               context.Products.Add(suncorpTermLoan2);
+               context.Products.Add(suncorpTermLoan3);
+
+
+
+               #endregion
+
           }
      }
 }

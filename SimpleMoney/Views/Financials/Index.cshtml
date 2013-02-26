@@ -1,0 +1,39 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<a href ="@ViewBag.XeroLink" target="_blank"  >XeroLink</a> 
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Xero Number</legend>           
+       
+        <input type="text" id="verificationCode" name="verificationCode" />
+
+        <p>
+            <input type="submit" value="Get Xero" />
+        </p>
+
+
+
+    </fieldset>
+    
+    
+    
+}
+
+<p>Organisation:</p>  <i>@ViewBag.Organisation</i>
+
+
+
+    
+

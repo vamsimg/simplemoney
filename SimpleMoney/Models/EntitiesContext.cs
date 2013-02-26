@@ -20,8 +20,9 @@ namespace SimpleMoney.Models
 
           public DbSet<UserProfile> UserProfiles { get; set; }
           public DbSet<Lender> Lenders { get; set; }
-          public DbSet<LenderEmployee> LenderEmployees { get; set; }
+         
           public DbSet<Product> Products { get; set; }
+          
 
           public DbSet<Application> Applications { get; set; }
           public DbSet<ApplicationBacker> ApplicationBackers { get; set; }

@@ -16,19 +16,17 @@ namespace SimpleMoney.Controllers
     {
         private EntitiesContext db = new EntitiesContext();
 
-        //
-        // GET: /Application/
 
+        // GET: /Application/
         public ActionResult Index()
         {
-            var applications = db.Applications.Where(a=>a.UserID == WebSecurity.CurrentUserId).Include(a => a.Owner);
+            var applications = db.Applications.Where(a=>a.UserID == WebSecurity.CurrentUserId).Include(a=>a.Owner);
             return View(applications.ToList());
         }
 
 
         //
         // POST: /Application/
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(string newApplicationButton)
@@ -56,8 +54,6 @@ namespace SimpleMoney.Controllers
 
         }
 
-       
-          //
           // GET: /Application/BusinessDetails/5
 
           public ActionResult BusinessDetails(int id = 0)
