@@ -31,7 +31,7 @@ namespace SimpleMoney.Models
           public int LVR { get; set; }
           public string LVRNotes { get; set; }
 
-          public int MinimumDuration { get; set; }
+          public double MinimumDuration { get; set; }
           public int MaximumDuration { get; set; }
           public string MaximumDurationNotes { get; set; }
 

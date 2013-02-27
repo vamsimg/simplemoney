@@ -133,8 +133,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.MinimumAmount)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaximumAmount)
+          <td>
+            @(item.MaximumAmount == 0 ? "None" : item.MaximumAmount.ToString())
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LoanAmountNotes)
@@ -211,8 +211,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.MinimumAmount)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaximumAmount)
+         <td>
+            @(item.MaximumAmount == 0 ? "None" : item.MaximumAmount.ToString())
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LoanAmountNotes)

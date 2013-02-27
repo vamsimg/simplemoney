@@ -184,9 +184,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201302260809329_test.cs" />
-    <Compile Include="Migrations\201302260809329_test.Designer.cs">
-      <DependentUpon>201302260809329_test.cs</DependentUpon>
+    <Compile Include="Migrations\201302271056223_test.cs" />
+    <Compile Include="Migrations\201302271056223_test.Designer.cs">
+      <DependentUpon>201302271056223_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -349,8 +349,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201302260809329_test.resx">
-      <DependentUpon>201302260809329_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201302271056223_test.resx">
+      <DependentUpon>201302271056223_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

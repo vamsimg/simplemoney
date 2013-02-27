@@ -442,6 +442,474 @@ namespace SimpleMoney.Migrations
 
                #endregion
 
+               #region ANZ
+
+               var anz = context.Lenders.First(l => l.Name == "ANZ");
+
+
+               var anzOverdraft = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Advantage Overdraft",
+                
+
+                    RateTypes = RateType.Variable,
+                
+                    ProductCategory = ProductCategory.Overdraft
+               };
+
+
+               var anzLineOfCredit = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Equity Line",
+                    Comments = @"Fully functioning line of credit
+                                  for the purpose of larger 
+                                  purchases or investments",
+
+
+                    MinimumAmount = 25000,
+                    MaximumAmount = 3000000,
+                    RateTypes = RateType.Variable,
+                    
+
+                    ProductCategory = ProductCategory.LineOfCredit
+
+               };
+
+               var anzBill = new Product
+               {
+                    LenderID = commbank.LenderID,
+                    Title = "Commercial Bill",
+                    MinimumAmount = 500000,
+                    RateTypes = RateType.Fixed,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty,
+                    SecurityNotes = @"Unsecured or secured by 
+                                        various forms of security
+                                         including residential*,
+                                         commercial or rural property,
+                                         business assets, or a
+                                         combination of these.",
+
+                    ProductCategory = ProductCategory.CommercialBill
+               };
+
+               var anzTermLoan1 = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Mortgage Loan Variable",
+                    MinimumAmount = 25000,
+
+                    MaximumDuration = 30,
+                    MaximumDurationNotes = "30 years variable, 10 years fixed",
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    RepaymentNotes = "I only(5 years) Balloon 80% ",                   
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var anzTermLoan2 = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Mortgage Loan Fixed",
+                    MinimumAmount = 25000,
+
+                    MaximumDuration = 10,                    
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    RepaymentNotes = "I only(5 years) Balloon 80% ",
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var anzTermLoan3 = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Saver",
+                    MinimumAmount = 50000,
+
+                    MaximumDuration = 30,
+                    MaximumDurationNotes = "30 years variable",
+
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty,
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly ,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    RepaymentNotes = "I only(5 years) Balloon 80% ",
+
+                    EarlyRepaymentsAllowed = true,
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var anzTermLoan4 = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Loan Variable",
+                    
+                    MinimumAmount = 10000,
+
+                    MaximumDuration = 15,
+                    
+                    RateTypes = RateType.Variable,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty | SecurityType.None,
+                    SecurityNotes = @"Unsecured or secured by 
+                                   various forms of security
+                                    including residential*,
+                                    commercial or rural property,
+                                    business assets, or a
+                                    combination of these.",
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    RepaymentNotes = "I only(5 years) Balloon 80% ",                   
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var anzTermLoan5 = new Product
+               {
+                    LenderID = anz.LenderID,
+                    Title = "Business Loan Variable",
+                    
+                    MinimumAmount = 10000,
+
+                    MaximumDuration = 10,
+                    
+
+                    RateTypes = RateType.Fixed,
+                    SecurityTypes = SecurityType.ResidentialProperty | SecurityType.CommercialProperty | SecurityType.None,
+                    SecurityNotes = @"Unsecured or secured by 
+                                   various forms of security
+                                    including residential*,
+                                    commercial or rural property,
+                                    business assets, or a
+                                    combination of these.",
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                    RepaymentNotes = "I only(5 years) Balloon 80% ",                   
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+
+               context.Products.Add(anzOverdraft);
+               context.Products.Add(anzLineOfCredit);
+               context.Products.Add(anzTermLoan1);
+               context.Products.Add(anzTermLoan2);
+               context.Products.Add(anzTermLoan3);
+               context.Products.Add(anzTermLoan4);
+               context.Products.Add(anzTermLoan5);
+
+               context.SaveChanges();
+
+               #endregion
+
+               #region NAB
+
+               var nab = context.Lenders.First(l => l.Name == "National Australia Bank");
+
+
+               var nabOverdraft = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Business Overdraft",
+                    MinimumAmount = 20000,
+
+                    RateTypes = RateType.Variable,
+                
+                    ProductCategory = ProductCategory.Overdraft
+               };
+               
+
+               var nabTermLoan1 = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Market Rate Facility",
+                    Comments = "Fixed rates which reset on rollover",
+                    MinimumAmount = 50000,
+
+                    MaximumDuration = 15,
+                    MaximumDurationNotes = "Minimum term is 7 days",
+
+
+                    RateTypes = RateType.Fixed,
+                    
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var nabTermLoan2 = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Business Options Instalment Loan (Variable)",
+                    MinimumAmount = 20000,
+                    MinimumDuration = 1,
+                    MaximumDuration = 15,                    
+                    MaximumDurationNotes = "30 years with Residential Security",
+
+                    RateTypes = RateType.Variable,
+                    
+                    RepaymentFrequencies = FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest,
+                   
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+                var nabTermLoan3 = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Business Options Instalment Loan (Fixed)",
+                    MinimumAmount = 20000,
+                    MinimumDuration = 1,                    
+                    MaximumDuration = 15,                    
+                    MaximumDurationNotes = "30 years with Residential Security",
+
+                    RateTypes = RateType.Fixed,
+                    
+                    RepaymentFrequencies = FrequencyType.Monthly | FrequencyType.Quarterly | FrequencyType.HalfYearly | FrequencyType.Yearly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest,
+                   
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var nabTermLoan4 = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Business Options Interest Only Loan (Variable)",
+                    MinimumAmount = 20000,
+                    MinimumDuration = 0.25,
+                    MaximumDuration = 5,
+                    MaximumDurationNotes = "30 years variable",
+
+                    RateTypes = RateType.Variable,
+                    
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly ,
+                    RepaymentTypes = RepaymentType.InterestInArrears | RepaymentType.InterestInAdvance,
+                    RepaymentNotes = "If interest in advance then yearly repayments only",
+
+                    EarlyRepaymentsAllowed = true,
+
+                    ProductCategory = ProductCategory.TermLoan
+               };
+
+               var nabTermLoan5 = new Product
+               {
+                    LenderID = nab.LenderID,
+                    Title = "Business Options Interest Only Loan (Fixed)",
+                    MinimumAmount = 20000,
+                    MinimumDuration = 0.25,
+                    MaximumDuration = 5,
+                    MaximumDurationNotes = "30 years variable",
+
+                    RateTypes = RateType.Variable,
+                    
+
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly ,
+                    RepaymentTypes = RepaymentType.InterestInArrears | RepaymentType.InterestInAdvance,
+                    RepaymentNotes = "If interest in advance then yearly repayments only",                    
+
+                    ProductCategory = ProductCategory.TermLoan               
+               };
+             
+
+
+               context.Products.Add(nabOverdraft);
+               
+               context.Products.Add(nabTermLoan1);
+               context.Products.Add(nabTermLoan2);
+               context.Products.Add(nabTermLoan3);
+               context.Products.Add(nabTermLoan4);
+               context.Products.Add(nabTermLoan5);
+
+               context.SaveChanges();
+
+               #endregion
+
+                #region Adelaide Bank
+
+               var adelaide = context.Lenders.First(l => l.Name == "Adelaide Bank");
+                              
+               var adelaideTermLoan1 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Full Doc (Variable)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 3000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 75,
+                    LVRNotes = "Maximum amount $3000000 (<70%LVR), $1million(>75%LVR)",
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Variable,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 0.5,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+
+
+               var adelaideTermLoan2 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Full Doc (Fixed)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 3000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 75,
+                    LVRNotes = "Maximum amount $3000000 (<70%LVR), $1million(>75%LVR)",
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Fixed,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 0.5,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+
+               var adelaideTermLoan3 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Lo Doc (Variable)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 2000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 75,
+                    LVRNotes = "Maximum amount $2000000 (<70%LVR), $1million(>75%LVR)",
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Variable,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 1,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+               
+                var adelaideTermLoan4 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Lo Doc (Fixed)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 3000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 75,
+                    LVRNotes = "Maximum amount $2000000 (<70%LVR), $1million(>75%LVR)",
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Fixed,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 0.5,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+
+               var adelaideTermLoan5 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Simple Doc (Variable)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 2000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 65,
+                   
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Variable,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 1,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+               
+                var adelaideTermLoan6 = new Product
+               {
+                    LenderID = adelaide.LenderID,
+                    Title = "Smartsuite Simple Doc (Fixed)",
+                    MinimumAmount = 150000,
+                    MaximumAmount = 1000000,
+                    MinimumDuration = 5,
+                    MaximumDuration = 25,                    
+                    
+
+                    LVR = 65,
+                    
+                    SecurityTypes = SecurityType.ResidentialProperty,
+                    
+                    RateTypes = RateType.Fixed,
+                    
+                    RepaymentFrequencies = FrequencyType.Weekly | FrequencyType.Fortnightly | FrequencyType.Monthly,
+                    RepaymentTypes = RepaymentType.PrincipalPlusInterest | RepaymentType.InterestInArrears,
+                   
+                    ProductCategory = ProductCategory.TermLoan,
+
+                    EstablishmentFeePercentage = 0.5,
+                    MonthlyAccountKeepingFee = 20,
+                    TerminationFee = 275,
+               };
+
+
+
+               context.Products.Add(adelaideTermLoan1);
+               context.Products.Add(adelaideTermLoan2);
+               context.Products.Add(adelaideTermLoan3);
+               context.Products.Add(adelaideTermLoan4);
+               context.Products.Add(adelaideTermLoan5);
+               context.Products.Add(adelaideTermLoan6);
+
+               context.SaveChanges();
+
+               #endregion
           }
      }
 }
