@@ -40,12 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="StyleCop">
-      <HintPath>..\packages\StyleCop.4.7.44.0\lib\net35\StyleCop.dll</HintPath>
-    </Reference>
-    <Reference Include="StyleCop.CSharp">
-      <HintPath>..\packages\StyleCop.4.7.44.0\lib\net35\StyleCop.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -161,7 +155,7 @@
       <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="XeroApi">
-      <HintPath>..\packages\XeroAPI.Net.1.1.0.27\lib\XeroApi.dll</HintPath>
+      <HintPath>..\packages\XeroAPI.Net.1.1.0.31\lib\XeroApi.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -170,33 +164,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\FinancialsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LenderController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="App_Code\EmailHelper.cs" />
     <Content Include="Content\Tables.css" />
     <Content Include="EmailTemplates\SubmissionDeclined.txt" />
     <Content Include="EmailTemplates\SubmitApplicationEmail.txt" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201302271056223_test.cs" />
-    <Compile Include="Migrations\201302271056223_test.Designer.cs">
-      <DependentUpon>201302271056223_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Application.cs" />
-    <Compile Include="Models\ApplicationViewModels.cs" />
-    <Compile Include="Models\EntitiesContext.cs" />
-    <Compile Include="Models\EntitiesInitializer.cs" />
     <Compile Include="Models\Financials.cs" />
-    <Compile Include="Models\Lender.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -299,10 +275,6 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -310,48 +282,26 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Account\Dashboard.cshtml" />
-    <Content Include="Views\Application\Index.cshtml" />
-    <Content Include="Views\Application\Details.cshtml" />
-    <Content Include="Views\Application\BusinessDetails.cshtml" />
-    <Content Include="Views\Lender\Index.cshtml" />
-    <Content Include="Views\Lender\Details.cshtml" />
-    <Content Include="Views\Lender\Create.cshtml" />
-    <Content Include="Views\Lender\Edit.cshtml" />
-    <Content Include="Views\Lender\Delete.cshtml" />
-    <Content Include="Views\LenderEmployee\Index.cshtml" />
-    <Content Include="Views\LenderEmployee\Details.cshtml" />
-    <Content Include="Views\LenderEmployee\Create.cshtml" />
-    <Content Include="Views\LenderEmployee\Edit.cshtml" />
-    <Content Include="Views\LenderEmployee\Delete.cshtml" />
-    <Content Include="Views\Application\SuitabilityCheck.cshtml" />
-    <Content Include="Views\Application\BusinessFinancials.cshtml" />
-    <Content Include="Views\Application\LoanRequirements.cshtml" />
     <Content Include="_AppStart.cshtml" />
-    <Content Include="Views\Application\ProductSearch.cshtml" />
-    <Content Include="Views\Application\SubmitApplication.cshtml" />
-    <Content Include="Views\Application\ApplicationFinish.cshtml" />
-    <Content Include="Views\ApplicationSubmission\Index.cshtml" />
-    <Content Include="Views\ApplicationSubmission\Details.cshtml" />
     <Content Include="Views\Financials\BalanceSheets.cshtml" />
     <Content Include="Views\Financials\Index.cshtml" />
     <Content Include="Views\Financials\ProfitAndLossStatements.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Financials\Invoices.cshtml" />
+    <Content Include="Views\Financials\Invoice.cshtml" />
+    <Content Include="Views\Financials\Contacts.cshtml" />
+    <Content Include="Views\Financials\Contact.cshtml" />
     <None Include="Web.discountasp.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201302271056223_test.resx">
-      <DependentUpon>201302271056223_test.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

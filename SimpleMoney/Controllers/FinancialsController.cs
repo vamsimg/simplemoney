@@ -65,7 +65,7 @@ namespace SimpleMoney.Controllers
                     return null;
                }
 
-             
+               Session.Add("consumerSession", consumerSession);
 
 
                // Wrap the authenticated consumerSession in the repository...
@@ -75,23 +75,25 @@ namespace SimpleMoney.Controllers
 
                ViewBag.Organisation = org.Name;
 
-
-
-
+              
 
                var latestBalanceSheet = ExtractBalanceSheet(repo);
 
                var latestProfitAndLossStatement = ExtractProfitAndLossStatement(repo);
 
 
+               //Session.Add("invoices", invoices.ToList());
                Session.Add("balanceSheet", latestBalanceSheet);
                Session.Add("profitAndLossStatement", latestProfitAndLossStatement);
 
-               return RedirectToAction("ProfitAndLossStatements");
+               return RedirectToAction("Invoices");
           }
 
           private BalanceSheet ExtractBalanceSheet(Repository repo)
           {
+               var latestBalanceSheet = new BalanceSheet();
+               latestBalanceSheet.BalanceSheetEntries = new List<BalanceSheetEntry>();
+
                //Can add a date here in declaration
 
                var report = new XeroApi.Model.Reporting.BalanceSheetReport();
@@ -101,23 +103,56 @@ namespace SimpleMoney.Controllers
                var sectionRows = balanceSheetReport.Rows.Where(r => r.RowType == "Section");
 
 
-               //Assets
-               var bankEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Bank"), "Bank", true);
-               var currentAssetEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Current Assets"), "Current Asset", true);
-               var fixedAssetEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Fixed Assets"), "Fixed Asset", true);
+               //Sometimes an entry type doesn't don't exist which is why the linqs are in try catch block
+
+               //Assets 
+               try
+               {
+
+                    var bankEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Bank"), "Bank", true);
+                    latestBalanceSheet.BalanceSheetEntries.AddRange(bankEntries);
+               }
+               catch
+               { }
+
+               try
+               {
+                    var currentAssetEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Current Assets"), "Current Asset", true);
+                    latestBalanceSheet.BalanceSheetEntries.AddRange(currentAssetEntries);
+               }
+               catch { }
+
+               try
+               {
+                    var fixedAssetEntries = ExtractSectionData(sectionRows.First(r => r.Title == "Fixed Assets"), "Fixed Asset", true);
+                    latestBalanceSheet.BalanceSheetEntries.AddRange(fixedAssetEntries);
+               }
+               catch { }
 
                //Liabilites
-               var currentLiabilities = ExtractSectionData(sectionRows.First(r => r.Title == "Current Liabilities"), "Current Liability", false);
-               var nonCurrentLiabilities = ExtractSectionData(sectionRows.First(r => r.Title == "Non-Current Liabilities"), "Non-Current Liability", false);
+               try
+               {
+                    var currentLiabilities = ExtractSectionData(sectionRows.First(r => r.Title == "Current Liabilities"), "Current Liability", false);
+                    latestBalanceSheet.BalanceSheetEntries.AddRange(currentLiabilities);
+               }
+               catch
+               { }
 
-               var latestBalanceSheet = new BalanceSheet();
+               try
+               {
+                    var nonCurrentLiabilities = ExtractSectionData(sectionRows.First(r => r.Title == "Non-Current Liabilities"), "Non-Current Liability", false);
+                    latestBalanceSheet.BalanceSheetEntries.AddRange(nonCurrentLiabilities);
+               }
+               catch { }
+               
+               
 
-               latestBalanceSheet.BalanceSheetEntries = new List<BalanceSheetEntry>();
-               latestBalanceSheet.BalanceSheetEntries.AddRange(bankEntries);
-               latestBalanceSheet.BalanceSheetEntries.AddRange(currentAssetEntries);
-               latestBalanceSheet.BalanceSheetEntries.AddRange(fixedAssetEntries);
-               latestBalanceSheet.BalanceSheetEntries.AddRange(currentLiabilities);
-               latestBalanceSheet.BalanceSheetEntries.AddRange(nonCurrentLiabilities);
+               
+               
+               
+               
+               
+               
 
                return latestBalanceSheet;
           }
@@ -154,6 +189,11 @@ namespace SimpleMoney.Controllers
                //Can add a date here in declaration
 
                var report = new XeroApi.Model.Reporting.ProfitAndLossReport();
+               var latestProfitAndLossStatement = new ProfitAndLossStatement();
+
+               latestProfitAndLossStatement.ProfitAndLossStatementEntries = new List<ProfitAndLossStatementEntry>();
+
+
 
                var profitAndLossReport = repo.Reports.RunDynamicReport(report);
 
@@ -161,21 +201,35 @@ namespace SimpleMoney.Controllers
 
 
                //Income
-               var operatingIncomeEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Income"), ProfitAndLossType.Income);
-               var nonOperatingIncome = ExtractPLSectionData(sectionRows.First(r => r.Title == " Non-operating Income"), ProfitAndLossType.OtherIncome); //Leading space in title
-               
-               //Expenses
-               var costOfSalesEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Less Cost Of Sales"), ProfitAndLossType.CostOfSales);
-               var operatingExpenseEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Less Operating Expenses"), ProfitAndLossType.Expense);
+               try
+               {
+                    var operatingIncomeEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Income"), ProfitAndLossType.Income);
+                    latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(operatingIncomeEntries);
+               }
+               catch { }
 
-               var latestProfitAndLossStatement = new ProfitAndLossStatement();
+               try
+               {
+                    var nonOperatingIncome = ExtractPLSectionData(sectionRows.First(r => r.Title == " Non-operating Income"), ProfitAndLossType.OtherIncome); //Leading space in title
+                    latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(nonOperatingIncome);
+               }
+               catch { }
 
-               latestProfitAndLossStatement.ProfitAndLossStatementEntries = new List<ProfitAndLossStatementEntry>();
+               try
+               {
+                    //Expenses
+                    var costOfSalesEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Less Cost Of Sales"), ProfitAndLossType.CostOfSales);
+                    latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(costOfSalesEntries);
+               }
+               catch { }
 
-               latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(operatingIncomeEntries);
-               latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(nonOperatingIncome);
-               latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(costOfSalesEntries);
-               latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(operatingExpenseEntries);
+
+               try
+               {
+                    var operatingExpenseEntries = ExtractPLSectionData(sectionRows.First(r => r.Title == " Less Operating Expenses"), ProfitAndLossType.Expense);
+                    latestProfitAndLossStatement.ProfitAndLossStatementEntries.AddRange(operatingExpenseEntries);
+               }
+               catch { }
 
                return latestProfitAndLossStatement;               
           }
@@ -183,20 +237,26 @@ namespace SimpleMoney.Controllers
           private List<ProfitAndLossStatementEntry> ExtractPLSectionData(XeroApi.Model.ReportRow sectionRow, ProfitAndLossType type)
           {
                var profitAndLossEntries = new List<ProfitAndLossStatementEntry>();
-
-               foreach (var row in sectionRow.Rows.Where(r => r.RowType == "Row"))
+               try
                {
-                    var newEntry = new ProfitAndLossStatementEntry();
+                    
 
-                    newEntry.ProfitAndLossType = type;
+                    foreach (var row in sectionRow.Rows.Where(r => r.RowType == "Row"))
+                    {
+                         var newEntry = new ProfitAndLossStatementEntry();
 
-                    newEntry.Details = row.Cells[0].Value;
-                    newEntry.AccountID = row.Cells[0].Attributes[0].Value;
-                    newEntry.Amount = Convert.ToDecimal(row.Cells[1].Value);
+                         newEntry.ProfitAndLossType = type;
 
-                    profitAndLossEntries.Add(newEntry);
+                         newEntry.Details = row.Cells[0].Value;
+                         newEntry.AccountID = row.Cells[0].Attributes[0].Value;
+                         newEntry.Amount = Convert.ToDecimal(row.Cells[1].Value);
+
+                         profitAndLossEntries.Add(newEntry);
+                    }
+
+                    
                }
-
+               catch { }
                return profitAndLossEntries;
           }
 
@@ -220,7 +280,44 @@ namespace SimpleMoney.Controllers
                return View(profitAndLossStatement);
           }
 
-          
+          //
+          // GET: /Financials/Invoices
+
+          public ActionResult Invoices()
+          {
+               IOAuthSession consumerSession = (IOAuthSession)Session["consumerSession"];
+
+               // Wrap the authenticated consumerSession in the repository...
+               var repo = new Repository(consumerSession);
+
+               var org = repo.Organisation;
+
+               ViewBag.Organisation = org.Name;
+
+               var invoices = repo.Invoices.Where(i => i.Date >= new DateTime(2013, 3, 1));
+                             
+
+               return View(invoices.ToList());
+          }
+
+          //
+          // GET: /Financials/Invoice
+
+          public ActionResult Invoice(Guid invoiceID)
+          {
+               IOAuthSession consumerSession = (IOAuthSession)Session["consumerSession"];
+
+               // Wrap the authenticated consumerSession in the repository...
+               var repo = new Repository(consumerSession);
+
+               var org = repo.Organisation;
+
+               ViewBag.Organisation = org.Name;
+
+               var invoice = repo.Invoices.Where(i => i.InvoiceID == invoiceID);
+
+               return View(invoice);
+          }
           
 
        

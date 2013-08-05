@@ -1,0 +1,49 @@
+﻿@model List<XeroApi.Model.Invoice>
+
+@{
+    ViewBag.Title = "ImportData";
+}
+
+
+
+
+
+<h2>Invoices</h2>
+
+
+<table>
+    <tr>
+        <th>Type</th><th>Details</th><th>Account Code</th><th>Amount</th>
+    </tr>
+    
+    @foreach (var entry in Model)
+    {
+        <tr>
+            <td>
+               <a href ="/Financials/Invoices/ @Html.DisplayFor(modelItem => entry.InvoiceID )">View </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.InvoiceNumber )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Date )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.InvoiceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => entry.Total)
+            </td> 
+              <td>
+                @Html.DisplayFor(modelItem => entry.Type)
+            </td>                        
+            <td>
+                @Html.DisplayFor(modelItem => entry.Status)
+            </td>                        
+        </tr>
+    }
+</table>
+

@@ -20,7 +20,7 @@ namespace SimpleMoney
           {
                AreaRegistration.RegisterAllAreas();
 
-               Database.SetInitializer<EntitiesContext>(new EntitiesInitializer());
+             
 
                WebApiConfig.Register(GlobalConfiguration.Configuration);
                FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
