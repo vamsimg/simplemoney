@@ -7,61 +7,50 @@
 
 
 
-
-<h2>Balance Sheet</h2>
-
-<h3>Assets</h3>
-
-<table>
-    <tr>
-        <th>Type</th><th>Details</th><th>Account Code</th><th>Amount</th>
-    </tr>
-    
-    @foreach (var entry in Model.BalanceSheetEntries.Where(e=>e.isAsset == true))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Type )
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Details)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.AccountID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Amount)
-            </td>                        
-        </tr>
-    }
-</table>
-
-<h3>Liabilities</h3>
-
-<table>
-    <tr>
-        <th>Type</th><th>Details</th><th>Account Code</th><th>Amount</th>
-    </tr>
-    
-    @foreach (var entry in Model.BalanceSheetEntries.Where(e=>e.isAsset == false))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Type )
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Details)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.AccountID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => entry.Amount)
-            </td>                         
-        </tr>
-    }
-</table>
+<h1>View Invoice</h1>
 
 
+<b>Invoice Number: </b> @Html.DisplayFor(Model => Model.InvoiceNumber)
 
+<br />
+<br />
+
+<b>Invoice Total: </b> @Html.DisplayFor(Model =>Model.Total)
+
+<br />
+<br />
+
+
+<b>Amount Still Due: </b> @Html.DisplayFor(Model =>Model.AmountDue)
+
+<br />
+<br />
+
+<b>Created On Due: </b> @Html.DisplayFor(Model =>Model.Date)
+
+<br />
+<br />
+
+
+<b>Due Date: </b> @Html.DisplayFor(Model =>Model.DueDate)
+
+<br />
+<br />
+
+<b>Paid Date: </b> @Html.DisplayFor(Model =>Model.FullyPaidOnDate)
+
+<br />
+<br />
+
+<b>Contact: </b> @Html.DisplayFor(Model =>Model.Contact)
+
+<br />
+<br />
+
+<b>Line Items: </b> 
+
+@Html.DisplayFor(Model =>Model.LineItems)
+
+<br />
+<br />
 
