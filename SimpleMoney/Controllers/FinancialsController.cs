@@ -7,6 +7,10 @@ using DevDefined.OAuth.Consumer;
 using DevDefined.OAuth.Framework;
 using DevDefined.OAuth.Logging;
 using DevDefined.OAuth.Storage.Basic;
+using DotNet.Highcharts;
+using DotNet.Highcharts.Enums;
+using DotNet.Highcharts.Helpers;
+using DotNet.Highcharts.Options;
 using SimpleMoney.Models;
 using XeroApi;
 using XeroApi.OAuth;
@@ -294,10 +298,93 @@ namespace SimpleMoney.Controllers
 
                ViewBag.Organisation = org.Name;
 
-               var invoices = repo.Invoices.Where(i => i.Date >= new DateTime(2013, 3, 1));
-                             
+               var validAccountsReceivablesInvoices = repo.Invoices.Where(i=>i.Type == "ACCREC" && (i.Status == "AUTHORISED" || i.Status == "PAID")).ToList();
 
-               return View(invoices.ToList());
+               var unpaidAccRecInvoices = validAccountsReceivablesInvoices.Where(i=>i.Status == "AUTHORISED" && i.DueDate.HasValue);
+               
+               var paidAccRecInvoices = validAccountsReceivablesInvoices.Where(i=>i.Status == "PAID");
+
+               int averageInvoiceTotal = (int)validAccountsReceivablesInvoices.Average(i => i.Total);
+
+               int unpaidAccRecTotal = (int)unpaidAccRecInvoices.Sum(i => i.Total);
+
+               var averageDaysOverdue = (int)paidAccRecInvoices.Where(i=>i.FullyPaidOnDate.GetValueOrDefault() > i.DueDate.GetValueOrDefault()).Average(i => (i.FullyPaidOnDate.GetValueOrDefault()- i.DueDate.GetValueOrDefault()).Days );
+
+               var averageDaysToPay = (int)paidAccRecInvoices.Average(i => (i.FullyPaidOnDate.GetValueOrDefault() - i.Date.GetValueOrDefault()).Days);
+
+               var invoicesLessThan30DaysOverdue = unpaidAccRecInvoices.Where(i=> DateTime.UtcNow < i.DueDate.Value.AddDays(30));
+               var totalLessThan30DaysOverdue = (int) invoicesLessThan30DaysOverdue.Average(i => i.Total);
+
+               var invoices30To60DaysOverdue = unpaidAccRecInvoices.Where(i => DateTime.UtcNow >= i.DueDate.Value.AddDays(30) && DateTime.UtcNow < i.DueDate.Value.AddDays(60));
+               var total30To60DaysOverdue = (int) invoices30To60DaysOverdue.Average(i => i.Total);
+
+               var invoices60To90DaysOverdue = unpaidAccRecInvoices.Where(i => DateTime.UtcNow >= i.DueDate.Value.AddDays(60) && DateTime.UtcNow < i.DueDate.Value.AddDays(90));
+               var total60To90DaysOverdue = (int)invoices60To90DaysOverdue.Average(i => i.Total);
+
+               var invoicesMoreThan90DaysOverdue = unpaidAccRecInvoices.Where(i => DateTime.UtcNow >= i.DueDate.Value.AddDays(90));
+               var totalMoreThan90DaysOverdue = (int?)invoicesMoreThan90DaysOverdue.Average(i => i.Total);
+
+
+               ViewBag.averageInvoiceTotal = averageInvoiceTotal;
+               ViewBag.unpaidAccRecTotal = unpaidAccRecTotal;
+               ViewBag.averageDaysOverdue = averageDaysOverdue;
+               ViewBag.averageDaysToPay = averageDaysToPay;
+               ViewBag.totalLessThan30DaysOverdue = totalLessThan30DaysOverdue;
+               ViewBag.total30To60DaysOverdue = total30To60DaysOverdue;
+               ViewBag.total60To90DaysOverdue = total60To90DaysOverdue;
+               ViewBag.totalMoreThan90DaysOverdue = totalMoreThan90DaysOverdue;
+
+               Highcharts totalOutstandingChart = new Highcharts("chart")
+                    .InitChart( new Chart
+                    {
+                         DefaultSeriesType = ChartTypes.Column
+                           
+                    }
+                    )
+                    .SetTitle(new Title { Text = "Total Outstanding Chart" })
+                  .SetXAxis(new XAxis
+                  {
+                       Categories = new[] { "totalLessThan30DaysOverdue", "total30To60DaysOverdue", "total60To90DaysOverdue", "totalMoreThan90DaysOverdue" }
+                  })
+                  .SetSeries(new Series
+                  {
+                       Data = new Data(new object[] { ((int)invoicesLessThan30DaysOverdue.Sum(i => i.AmountDue)).ToString(),
+                                                      ((int)invoices30To60DaysOverdue.Sum(i=>i.AmountDue)).ToString(),
+                                                      ((int)invoices60To90DaysOverdue.Sum(i=>i.AmountDue)).ToString(),
+                                                      ((int)invoicesMoreThan90DaysOverdue.Sum(i=>i.AmountDue)).ToString() 
+                                                    })
+                  });
+
+
+
+
+               ViewBag.totalOutstandingChart = totalOutstandingChart;
+
+
+               Highcharts averageTotalschart = new Highcharts("chart")
+                    .InitChart(new Chart
+                    {
+                         DefaultSeriesType = ChartTypes.Column
+                    }
+                    )
+                    .SetTitle(new Title { Text = "average Invoice Total Chart" })
+                  .SetXAxis(new XAxis
+                  {
+                       Categories = new[] { "averageInvoiceTotal", "totalLessThan30DaysOverdue", "total30To60DaysOverdue", "total60To90DaysOverdue", "totalMoreThan90DaysOverdue" }
+                  })
+                  .SetSeries(new Series
+                  {
+                       Data = new Data(new object[] { averageInvoiceTotal.ToString(), totalLessThan30DaysOverdue, total30To60DaysOverdue, total60To90DaysOverdue, totalMoreThan90DaysOverdue })
+                  });
+
+
+
+
+               ViewBag.averageTotalschart = averageTotalschart;
+
+
+
+               return View(validAccountsReceivablesInvoices.ToList());
           }
 
           //

@@ -4,11 +4,47 @@
     ViewBag.Title = "ImportData";
 }
 
-
-
-
-
 <h2>Invoices</h2>
+
+
+<h3>Stats</h3>
+
+Accounts Receivable:
+<br />
+<br />
+Average Time To Pay: @ViewBag.averageDaysToPay
+<br />
+<br />
+Average Days Overdue: @ViewBag.averageDaysOverdue
+<br />
+<br />
+Average Total: @ViewBag.averageInvoiceTotal
+<br />
+<br />
+Unpaid Total: @ViewBag.unpaidAccRecTotal
+<br />
+<br />
+<30 : @ViewBag.totalLessThan30DaysOverdue
+<br />
+<br />
+30-60: @ViewBag.total30To60DaysOverdue
+<br />
+<br />
+60-90: @ViewBag.total60To90DaysOverdue
+<br />
+<br />
+90+ : @ViewBag.totalMoreThan90DaysOverdue
+<br />
+<br />
+
+@ViewBag.totalOutstandingChart
+
+<br />
+<br />
+
+
+
+
 
 
 <table>
