@@ -303,7 +303,7 @@ namespace SimpleMoney.Controllers
           //
           // GET: /Financials/Invoice
 
-          public ActionResult Invoice(string invoiceID)
+          public ActionResult Invoice(Guid invoiceID)
           {
                
                IOAuthSession consumerSession = (IOAuthSession)Session["consumerSession"];
@@ -315,11 +315,33 @@ namespace SimpleMoney.Controllers
 
                ViewBag.Organisation = org.Name;
 
-               var invoice = repo.Invoices.Where(i => i.InvoiceID == new Guid(invoiceID)).First();
+               var invoice = repo.Invoices.Where(i => i.InvoiceID == invoiceID).First();
 
                return View(invoice);
           }
-          
+
+
+
+          //
+          // GET: /Financials/Invoice
+
+          public ActionResult InvoiceStatistics(Guid invoiceID)
+          {
+
+              IOAuthSession consumerSession = (IOAuthSession)Session["consumerSession"];
+
+              // Wrap the authenticated consumerSession in the repository...
+              var repo = new Repository(consumerSession);
+
+              var org = repo.Organisation;
+
+              ViewBag.Organisation = org.Name;
+
+              var invoices = repo.Invoices.Where(i => i.Date >= new DateTime(2013, 3, 1));
+
+
+              return View(invoices.ToList());
+          }
 
        
     }

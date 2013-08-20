@@ -169,6 +169,7 @@
     <Content Include="Content\Tables.css" />
     <Content Include="EmailTemplates\SubmissionDeclined.txt" />
     <Content Include="EmailTemplates\SubmitApplicationEmail.txt" />
+    <Compile Include="Controllers\MYOBController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -290,6 +291,7 @@
     <Content Include="Views\Financials\Invoice.cshtml" />
     <Content Include="Views\Financials\Contacts.cshtml" />
     <Content Include="Views\Financials\Contact.cshtml" />
+    <Content Include="Views\Financials\InvoiceStatistics.cshtml" />
     <None Include="Web.discountasp.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -332,7 +334,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>51614</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2346/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
