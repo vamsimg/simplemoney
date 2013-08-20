@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNet.Highcharts">
+      <HintPath>..\packages\DotNet.Highcharts.2.0\lib\DotNet.Highcharts.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -238,6 +241,26 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\discountasp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\adapters\mootools-adapter.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\adapters\mootools-adapter.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\adapters\prototype-adapter.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\adapters\prototype-adapter.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\highcharts-more.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\highcharts.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\highcharts.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\canvas-tools.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\canvas-tools.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\data.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\data.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\exporting.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\exporting.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\funnel.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\modules\funnel.src.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\themes\dark-blue.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\themes\dark-green.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\themes\gray.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\themes\grid.js" />
+    <Content Include="Scripts\Highcharts-3.0.1\js\themes\skies.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
