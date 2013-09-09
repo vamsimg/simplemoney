@@ -1,0 +1,153 @@
+﻿@model SimpleMoney.Models.ProductPayments
+
+@{
+    ViewBag.Title = "LoanCost";
+}
+
+<h2>LoanCost</h2>
+
+
+@using (Html.BeginForm()) 
+{
+     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Requirements</legend>           
+                
+        <div class="editor-label">
+           Loan Amount
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("amount", new { @value = ViewBag.amount })
+        </div>
+
+        <div class="editor-label">
+          How Long ?
+        </div>
+        <div class="editor-field">
+             
+             @Html.DropDownList("duration", new SelectList ( new Dictionary<string,string> 
+					   { { "1", "1 year" }, { "2", "2 years" }, { "3", "3 years" } , { "4", "4 years" } , { "5", "5 years" } },
+                              "Key", "Value", @ViewBag.duration))
+
+        </div>
+       
+        <div class="editor-label">
+           Variable Rate
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("variablerate", new { @value = ViewBag.amount })
+        </div>
+
+        <div class="editor-label">
+           Fixed Rate
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("fixedrate", new { @value = ViewBag.amount })
+        </div>
+        
+       
+        
+        <input type="submit" value="Display" name ="nextButton"/>
+
+       
+         <h2>Fixed Payments</h2>
+
+          <table id="fixed">
+               <tbody>
+               <tr>
+                  <td>
+                      Period
+                  </td>
+                  <td>
+                      Principal Payment
+                  </td>       
+                  <td>
+                      Interest Payment
+                  </td>
+                  <td>
+                      Total Payment
+                  </td>
+                  <td>
+                      Loan Balance
+                  </td> 
+              </tr>
+
+               @if(Model != null)
+               {
+                    foreach (var item in Model.fixedPayments)
+                    {
+                        <tr>
+                            <td>
+                                @item.period.ToString()
+                            </td>
+                            <td>
+                               @Math.Round(item.principlePayment, 0).ToString()
+                            </td>       
+                            <td>
+                               @Math.Round(item.interestPayment, 0).ToString()
+                            </td>
+                              <td>
+                                @Math.Round(item.totalPayment, 0).ToString()
+                            </td>
+                            <td>
+                                @Math.Round(item.balance, 0).ToString()
+                            </td>                            
+                        </tr>
+                    }
+               }
+               </tbody>
+          </table>
+
+         <h2>Variable Payments</h2>
+
+          <table id="variable">
+               <tbody>
+               <tr>
+                  <td>
+                      Period
+                  </td>
+                  <td>
+                      Principal Payment
+                  </td>       
+                  <td>
+                      Interest Payment
+                  </td>
+                  <td>
+                      Total Payment
+                  </td>
+                  <td>
+                      Loan Balance
+                  </td> 
+              </tr>
+               @if(Model != null)
+               {
+                    foreach (var item in Model.variablePayments)
+                    {
+                         <tr>
+                              <td>
+                                   @item.period.ToString()
+                              </td>
+                              <td>
+                                   @Math.Round(item.principlePayment, 0).ToString()
+                              </td>       
+                              <td>
+                                   @Math.Round(item.interestPayment, 0).ToString()
+                              </td>
+                              <td>
+                                   @Math.Round(item.totalPayment, 0).ToString()
+                              </td>
+                              <td>
+                                   @Math.Round(item.balance, 0).ToString()
+                              </td>                            
+                         </tr>
+                    }
+               }
+               </tbody>
+          </table>
+
+
+        
+    </fieldset>
+}
